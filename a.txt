@@ -1,0 +1,598 @@
+Proceed in BUILD mode and execute the analysis directly.
+
+Do not return another plan.
+
+PROJECT OBJECTIVE
+
+Improve honest chronological fraud-detection Average Precision using the
+completed V5 run, the verified raw-data findings, and the existing BASE
+feature matrix.
+
+Main research target:
+- Honest local AP >= 0.60
+
+Current evidence:
+- Previous unweighted GPU XGBoost Fold-3 AP: 0.530061
+- Completed local CPU V5 run:
+  BASE Fold-2 AP = 0.828417
+  BASE Fold-3 AP = 0.515025
+  V5 Fold-2 AP = 0.679227
+  V5 Fold-3 AP = 0.439366
+- V5 supervised-history features hurt both folds.
+- Removing supervised-history features brought Fold-3 back toward 0.508,
+  still below BASE.
+- BASE Fold-2 AP above 0.75 remains suspicious.
+- Do not reuse the failed V5 supervised-history feature family.
+- Do not select models using Fold-2 and Fold-3 mean until the Fold-2 anomaly
+  is resolved.
+
+NEW VERIFIED RAW-DATA FINDINGS
+
+Global train fraud rate:
+- 1.7605%
+
+Monthly fraud rates:
+- January: approximately 1.797%
+- February: approximately 1.771%
+- March: approximately 1.790%
+- April: approximately 1.905%
+- May: approximately 1.640%
+- June: approximately 1.773%
+- July 1-15: approximately 1.557%
+
+July is the period immediately before the test period:
+- Train ends: 2026-07-15
+- Test begins: 2026-07-16
+
+July should receive controlled recency emphasis, but do not discard earlier
+training history and do not assume July labels represent the entire test period.
+
+EXACT HOUR SIGNAL
+
+Full-training fraud rates by hour show an exceptionally strong nighttime
+regime:
+
+- 03:00: approximately 17.25%
+- 04:00: approximately 15.23%
+- 02:00: approximately 14.67%
+- 01:00: approximately 12.46%
+- 00:00: approximately 9.74%
+- 05:00: approximately 2.48%
+
+Combined 01:00 through 04:59:
+- approximately 14.70% fraud
+- approximately 8.35 times the global fraud rate
+
+The same signal remains present in July, but is weaker:
+
+- July 04:00: approximately 8.50%
+- July 03:00: approximately 7.64%
+- July 01:00: approximately 7.55%
+- July 00:00: approximately 6.22%
+- July 02:00: approximately 5.77%
+- July combined 01:00 through 04:59: approximately 7.34%
+
+Interpretation:
+- Exact hour is a genuine predictive signal.
+- The magnitude changes over time.
+- A stale all-history target rate may overstate recent nighttime risk.
+- Preserve hours 00, 01, 02, 03, 04 and 05 separately.
+
+WEEKEND FINDING
+
+Overall:
+- Weekday fraud rate: approximately 1.729%
+- Weekend fraud rate: approximately 1.839%
+- Weekend standalone lift: only approximately 1.044 times
+
+July:
+- Weekend fraud rate is approximately 1.23%, below the July average.
+- July daytime weekend transactions are less risky.
+- July 01:00 to 04:59 weekend transactions are approximately 8.77% fraud.
+- July 01:00 to 04:59 non-weekend transactions are approximately 6.86%.
+
+Interpretation:
+- Weekend alone is weak and temporally unstable.
+- Weekend by exact-hour interaction is potentially valuable.
+- Do not use a global weekend target rate.
+- Test weekend only through current-row label-free interactions.
+
+============================================================
+PHASE 1: AUDIT THE COMPLETED RUN
+============================================================
+
+Before training anything, inspect:
+
+- v5_pipeline.py
+- v5_out/V5_RESEARCH_REPORT.md
+- v5_out/v5_validation_report.json
+- v5_out/v5_feature_summary.csv
+- v5_out/v5_feature_list.txt
+- train_combined.parquet
+- test_combined.parquet
+- train.csv
+- test.csv
+- y.npy
+
+Investigate BASE Fold-2 AP = 0.828417.
+
+Required checks:
+
+1. Confirm Fold-2 validation is exactly raw indices 613012:672477.
+2. Confirm Fold-3 validation is exactly raw indices 672477:731942.
+3. Confirm prediction arrays align with those exact raw rows.
+4. List all BASE features containing:
+   oof, target, fraud, rate, history, cumulative, rolling, previous,
+   next, future, count, mean, total, with_current.
+5. Identify features that were constructed using the complete train frame.
+6. Identify features that can see Fold-2 future rows, even without labels.
+7. Identify target-derived features whose cutoff construction cannot be proven.
+8. Evaluate Fold-2 prevalence and prediction distribution.
+9. Flag Fold-2 AP above 0.75 as unresolved unless a concrete safe explanation
+   is proven.
+
+Create a safe feature subset:
+
+BASE_RECENCY_SAFE
+
+BASE_RECENCY_SAFE must exclude:
+- unverified target-derived features
+- features that use future rows relative to the fold cutoff
+- existing OOF features whose exact fold construction is unavailable
+- full-train historical features that make Fold-2 invalid
+
+Keep:
+- current-row numeric features
+- current-row category codes
+- safe timestamp features
+- amount features
+- account-age features
+- missing indicators
+- historical features only where past-only construction is proven
+
+Do not overwrite the original BASE files.
+
+============================================================
+PHASE 2: BUILD THE NIGHT AND RECENCY FEATURE BLOCK
+============================================================
+
+Prefix every new feature with v6_.
+
+All features in this experiment must be label-free and derived from current-row
+values or verified past-only transaction history.
+
+TIME FEATURES
+
+Create:
+
+- v6_hour_exact
+- v6_minute
+- v6_minutes_since_midnight
+- v6_is_hour_00
+- v6_is_hour_01
+- v6_is_hour_02
+- v6_is_hour_03
+- v6_is_hour_04
+- v6_is_hour_05
+- v6_is_00_04
+- v6_is_01_04
+- v6_is_01_05
+- v6_is_02_04
+- v6_hour_sin
+- v6_hour_cos
+- v6_day_of_week
+- v6_is_weekend
+- v6_is_weekday
+- v6_is_july
+- v6_days_before_train_end
+- v6_recency_fraction
+
+Use current-row timestamp only.
+
+RECENCY FEATURES
+
+Define recency relative to the end of the corresponding training prefix.
+
+For each fold training row calculate a smooth label-free sample-weight candidate
+from transaction date.
+
+Do not encode fraud rates by calendar period.
+
+Create feature values:
+
+- v6_days_since_dataset_start
+- v6_month_index
+- v6_recent_14d
+- v6_recent_30d
+- v6_recent_45d
+- v6_recent_60d
+- v6_recent_90d
+
+For final full training:
+- use 2026-07-15 as the training endpoint
+
+For Fold-2 and Fold-3:
+- use each fold training cutoff as the endpoint
+- do not define recency using the final full-train endpoint
+
+TIME INTERACTIONS
+
+Create deterministic label-free codes for:
+
+- v6_hour_device_type
+- v6_hour_transaction_type
+- v6_hour_payment_method
+- v6_hour_merchant_category
+- v6_hour_location
+- v6_hour_amount_bucket
+- v6_hour_new_device
+- v6_hour_new_location
+- v6_night_device_type
+- v6_night_transaction_type
+- v6_night_payment_method
+- v6_night_merchant_category
+- v6_night_location
+- v6_night_amount_bucket
+- v6_weekend_hour
+- v6_weekend_night
+- v6_weekend_device_type
+- v6_weekend_transaction_type
+- v6_weekend_amount_bucket
+- v6_recent30d_hour
+- v6_recent30d_night
+- v6_recent30d_weekend
+- v6_recent30d_device_type
+- v6_recent30d_transaction_type
+
+Use joint train-test factorization only for label-free categorical consistency.
+
+AMOUNT INTERACTIONS
+
+Use fixed amount bins:
+
+[-inf, 250, 500, 1000, 2000, 3000, 5000, 10000, 20000, 50000, inf]
+
+Create:
+
+- v6_amount_log1p
+- v6_amount_bucket
+- v6_amount_log_hour_00
+- v6_amount_log_hour_01
+- v6_amount_log_hour_02
+- v6_amount_log_hour_03
+- v6_amount_log_hour_04
+- v6_amount_log_hour_05
+- v6_amount_log_night
+- v6_amount_log_weekend_night
+- v6_high_amount_night
+- v6_high_amount_recent30d
+- v6_high_amount_new_device
+- v6_high_amount_new_location
+- v6_amount_bucket_hour
+- v6_amount_bucket_weekend_hour
+
+BEHAVIOR INTERACTIONS
+
+Reuse existing past-only behavioral features only if their construction is
+verified.
+
+Prioritize interactions with:
+
+- customer_transactions_previous_1h
+- device_transactions_previous_1h
+- customer_burst_10min
+- customer_burst_30min
+- customer_time_since_previous_min
+- customer_amount_ratio
+- customer_amount_ratio_recent_1h
+- device_recent_1h_share
+- customer_device_previous_count
+- is_new_device_for_customer
+- is_new_location_for_customer
+
+Create:
+
+- v6_night_customer_count_1h
+- v6_night_device_count_1h
+- v6_night_customer_burst_10m
+- v6_night_customer_burst_30m
+- v6_night_customer_amount_ratio
+- v6_night_recent_amount_ratio
+- v6_night_new_device
+- v6_night_new_location
+- v6_night_device_recent_share
+- v6_night_customer_device_count
+- v6_weekend_night_customer_burst
+- v6_weekend_night_new_device
+- v6_recent30d_night_customer_burst
+- v6_recent30d_night_amount_ratio
+
+If a required source feature is unavailable or unverified:
+- skip only that interaction
+- record the exclusion
+- do not rebuild expensive feature families
+
+============================================================
+PHASE 3: RECENCY SAMPLE-WEIGHT EXPERIMENT
+============================================================
+
+Do not use class weighting.
+
+Keep:
+- scale_pos_weight = 1.0
+
+Evaluate only these training-row weighting policies:
+
+W0:
+- all training rows weight = 1.00
+
+W1 mild:
+- latest 14 days relative to fold cutoff: 1.20
+- days 15-45: 1.10
+- days 46-90: 1.05
+- older rows: 1.00
+
+W2 moderate:
+- latest 14 days: 1.35
+- days 15-45: 1.18
+- days 46-90: 1.08
+- older rows: 1.00
+
+Important:
+- Recency must be calculated relative to each fold training cutoff.
+- Validation rows receive no training sample weight.
+- Never define Fold-2 weights relative to July 15.
+- Do not test more weighting policies.
+- Do not use labels when calculating weights.
+
+============================================================
+PHASE 4: FAIR MODEL COMPARISON
+============================================================
+
+Use the same CPU XGBoost parameters for all candidates:
+
+objective = binary:logistic
+eval_metric = aucpr
+tree_method = hist
+device = cpu
+n_estimators = 900
+learning_rate = 0.05
+max_depth = 8
+min_child_weight = 8
+subsample = 0.88
+colsample_bytree = 0.78
+reg_alpha = 0.20
+reg_lambda = 8.0
+max_bin = 128
+grow_policy = depthwise
+scale_pos_weight = 1.0
+early_stopping_rounds = 70
+random_state = 20260915
+n_jobs = -1
+
+Evaluate:
+
+M0:
+- BASE_RECENCY_SAFE
+- W0
+
+M1:
+- BASE_RECENCY_SAFE + V6 time/night/amount interactions
+- W0
+
+M2:
+- Same features as M1
+- W1 mild recency weighting
+
+M3:
+- Same features as M1
+- W2 moderate recency weighting
+
+Run on both correct forward folds.
+
+Fold 2:
+- train [0:613012]
+- validation [613012:672477]
+
+Fold 3:
+- train [0:672477]
+- validation [672477:731942]
+
+Do not use the invalid old Fold-2 logic.
+
+For each model and fold report:
+
+- AP
+- best iteration
+- runtime
+- prediction mean, median, standard deviation and quantiles
+- precision at top 1%, 2% and 5%
+- fraud capture at top 1%, 2% and 5%
+- AP inside the 00:00 to 05:59 segment
+- AP inside 01:00 to 04:59
+- AP on weekend rows
+- AP on weekend 01:00 to 04:59 rows
+- AP on the most recent 14 validation days
+- AP outside the top 1% prediction group
+
+The key evaluation question:
+Does the new model improve ranking beyond the obvious extreme top 1% fraud cases?
+
+============================================================
+PHASE 5: PROMOTION RULE
+============================================================
+
+Do not combine the suspicious original BASE Fold-2 result with the new results.
+
+Promote a V6 model only if:
+
+1. Fold-3 AP improves over M0.
+2. Fold-2 AP does not decrease by more than 0.001.
+3. Mean AP across the two newly rebuilt safe folds improves.
+4. Worst-fold AP does not decrease.
+5. Top 1%-5% fraud ranking improves or remains stable.
+6. No leakage or alignment check fails.
+7. The improvement is not caused only by one narrow nighttime group.
+8. Prediction distribution remains plausible.
+
+When comparing W0, W1 and W2:
+- choose the least aggressive weighting policy within 0.0005 AP of the best
+  mean score
+- prefer stability over maximizing Fold-3 alone
+
+============================================================
+PHASE 6: OPTIONAL RECENT-WINDOW MODEL
+============================================================
+
+Only run this if M1, M2 or M3 demonstrates positive stable gain.
+
+Train one recent-window model using only a trailing history window from the
+training prefix.
+
+Test one window only:
+- most recent 90 training days before the fold cutoff
+
+Use the same V6 feature set and W0.
+
+Evaluate on both folds.
+
+Test only these fixed blends against the strongest full-history model:
+
+- 90% full-history + 10% recent-window
+- 80% full-history + 20% recent-window
+- 70% full-history + 30% recent-window
+
+Test:
+- probability blend
+- percentile-rank blend
+
+Promote a blend only if:
+- mean AP improves
+- neither fold loses more than 0.001
+- worst-fold AP does not decrease
+- prediction correlation indicates meaningful diversity
+
+Do not optimize continuous blend weights.
+
+============================================================
+PHASE 7: LEAKAGE AND TEMPORAL TESTS
+============================================================
+
+Run:
+
+1. Validation-label shuffle invariance
+   Validation features must not change.
+
+2. Cutoff integrity
+   Fold-2 features may not use rows at or after 613012 for historical sources.
+   Fold-3 features may not use rows at or after 672477.
+
+3. Current-row-only verification
+   Time, weekend, recency and amount regime features must use only current-row
+   information and fold-specific cutoff dates.
+
+4. Behavioral source verification
+   Every reused history feature must have proven past-only construction.
+
+5. Fold anomaly flag
+   Any reconstructed safe Fold-2 AP above 0.75 must trigger an audit and block
+   final promotion.
+
+6. Exact prediction alignment
+   Fold predictions must correspond to exact raw validation indices.
+
+7. Temporal regime reporting
+   Report hour-specific fraud rates separately for Fold-2 training,
+   Fold-2 validation, Fold-3 training and Fold-3 validation.
+
+============================================================
+PHASE 8: FINAL TRAINING
+============================================================
+
+Select the model using the promotion rule.
+
+If no V6 model passes:
+- keep M0 BASE_RECENCY_SAFE
+
+Do not fall back automatically to the original suspicious BASE pipeline.
+
+For final tree count:
+- take the median of selected Fold-2 and Fold-3 best iterations
+- multiply by 1.05
+- round to an integer
+- minimum 100 trees
+
+Train on all labeled train rows.
+
+For the final recency-weighted model:
+- define weights relative to 2026-07-15
+- use the exact selected weighting policy
+
+Create:
+
+- submission_v6_recency.csv
+- v6_test_predictions.npy
+- v6_fold2_predictions.npy
+- v6_fold3_predictions.npy
+- v6_feature_importance.csv
+- v6_feature_list.txt
+- v6_model.json
+- v6_validation_results.csv
+- v6_segment_metrics.csv
+- v6_recency_weight_results.csv
+- v6_feature_audit.csv
+- v6_leakage_audit.json
+- V6_RECENCY_RESEARCH_REPORT.md
+- v6_run_log.txt
+
+Save under:
+v6_out/
+
+Submission requirements:
+
+- exactly 262648 rows
+- columns exactly transaction_id and fraud
+- transaction IDs exactly match sample_submission order
+- no duplicates
+- no missing predictions
+- no NaN or infinity
+- probabilities within [0,1]
+- reload and verify the written CSV
+
+============================================================
+FINAL TERMINAL SUMMARY
+============================================================
+
+Print:
+
+- M0 Fold-2 AP
+- M0 Fold-3 AP
+- M1 Fold-2 AP
+- M1 Fold-3 AP
+- M2 Fold-2 AP
+- M2 Fold-3 AP
+- M3 Fold-2 AP
+- M3 Fold-3 AP
+- mean and worst-fold AP for all candidates
+- top 1%-5% metrics
+- exact-hour segment metrics
+- weekend-night segment metrics
+- selected sample-weighting policy
+- selected feature configuration
+- selected tree count
+- leakage test results
+- submission verification
+- total runtime
+- output paths
+
+Then print exactly one:
+
+PROMOTE V6_RECENCY
+
+or:
+
+KEEP SAFE BASE
+
+Do not return another plan.
+Implement and execute now.
+``

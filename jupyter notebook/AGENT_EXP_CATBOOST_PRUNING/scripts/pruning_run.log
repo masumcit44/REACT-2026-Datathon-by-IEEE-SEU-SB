@@ -1,0 +1,43 @@
+[UNPRUNED_101F] features=101 train=672477 val=59465 cat_feats=['customer_id', 'merchant_id', 'merchant_category', 'device_id', 'device_type', 'location', 'payment_method', 'transaction_type', 'customer_previous_device', 'customer_previous_merchant', 'customer_previous_location', 'device_previous_customer', 'merchant_previous_customer']
+[UNPRUNED_101F] NaN filled: {'customer_time_since_previous_min': 38689, 'customer_previous_amount': 38689, 'customer_previous_amount_mean': 38689, 'customer_amount_difference': 38689, 'customer_amount_ratio': 38689, 'customer_previous_device': 38689, 'customer_previous_merchant': 38689, 'customer_previous_location': 38689, 'customer_previous_hour': 38689, 'hour_difference_from_previous': 38689, 'customer_previous_amount_mean_v2': 38689, 'customer_previous_amount_std': 38689, 'customer_amount_zscore': 63146, 'customer_amount_abs_zscore': 63146, 'device_previous_customer': 19089, 'device_time_since_previous_min': 19089, 'device_recent_1h_share': 19089, 'device_recent_24h_share': 19089, 'merchant_previous_customer': 4178, 'merchant_time_since_previous_min': 4178, 'customer_amount_mean_previous_1h': 714774, 'customer_amount_mean_previous_6h': 662909, 'customer_amount_mean_previous_24h': 554041, 'customer_amount_ratio_recent_1h': 714774, 'customer_amount_ratio_recent_6h': 662909, 'customer_amount_ratio_recent_24h': 554041, 'merchant_recent_1h_share': 4178, 'merchant_recent_24h_share': 4178}
+0:	learn: 0.5618870	test: 0.3507913	best: 0.3507913 (0)	total: 598ms	remaining: 4m 28s
+50:	learn: 0.8215853	test: 0.4897896	best: 0.4898631 (49)	total: 21.6s	remaining: 2m 49s
+100:	learn: 0.8325313	test: 0.4972247	best: 0.4973549 (97)	total: 48.2s	remaining: 2m 46s
+150:	learn: 0.8380610	test: 0.5012112	best: 0.5012112 (150)	total: 1m 13s	remaining: 2m 25s
+200:	learn: 0.8412615	test: 0.5016632	best: 0.5022181 (177)	total: 1m 40s	remaining: 2m 4s
+250:	learn: 0.8429310	test: 0.5023433	best: 0.5026365 (237)	total: 2m 4s	remaining: 1m 38s
+300:	learn: 0.8454453	test: 0.5029641	best: 0.5031383 (297)	total: 2m 29s	remaining: 1m 14s
+350:	learn: 0.8478886	test: 0.5029154	best: 0.5033895 (316)	total: 2m 53s	remaining: 49s
+400:	learn: 0.8498231	test: 0.5039902	best: 0.5040595 (399)	total: 3m 15s	remaining: 23.8s
+449:	learn: 0.8516607	test: 0.5047321	best: 0.5047321 (449)	total: 3m 35s	remaining: 0us
+
+bestTest = 0.5047320736
+bestIteration = 449
+
+[UNPRUNED_101F] FINAL AP=0.504775 best_iter=449 runtime=3.73 min
+[PRUNED_94F] features=94 train=672477 val=59465 cat_feats=['customer_id', 'merchant_id', 'merchant_category', 'device_id', 'device_type', 'location', 'payment_method', 'transaction_type', 'customer_previous_device', 'customer_previous_merchant', 'customer_previous_location', 'device_previous_customer', 'merchant_previous_customer']
+[PRUNED_94F] NaN filled: {'customer_time_since_previous_min': 38689, 'customer_previous_amount': 38689, 'customer_previous_amount_mean': 38689, 'customer_amount_difference': 38689, 'customer_amount_ratio': 38689, 'customer_previous_device': 38689, 'customer_previous_merchant': 38689, 'customer_previous_location': 38689, 'customer_previous_hour': 38689, 'hour_difference_from_previous': 38689, 'customer_previous_amount_mean_v2': 38689, 'customer_previous_amount_std': 38689, 'customer_amount_zscore': 63146, 'customer_amount_abs_zscore': 63146, 'device_previous_customer': 19089, 'device_time_since_previous_min': 19089, 'device_recent_1h_share': 19089, 'device_recent_24h_share': 19089, 'merchant_previous_customer': 4178, 'merchant_time_since_previous_min': 4178, 'customer_amount_mean_previous_1h': 714774, 'customer_amount_mean_previous_6h': 662909, 'customer_amount_mean_previous_24h': 554041, 'customer_amount_ratio_recent_1h': 714774, 'customer_amount_ratio_recent_6h': 662909, 'customer_amount_ratio_recent_24h': 554041, 'merchant_recent_1h_share': 4178, 'merchant_recent_24h_share': 4178}
+0:	learn: 0.5387935	test: 0.3048546	best: 0.3048546 (0)	total: 385ms	remaining: 2m 53s
+50:	learn: 0.8216044	test: 0.4875038	best: 0.4875887 (44)	total: 23.7s	remaining: 3m 5s
+100:	learn: 0.8330548	test: 0.4947758	best: 0.4948023 (97)	total: 48.8s	remaining: 2m 48s
+150:	learn: 0.8376084	test: 0.4971884	best: 0.4972465 (148)	total: 1m 12s	remaining: 2m 22s
+200:	learn: 0.8404496	test: 0.4993399	best: 0.4994523 (197)	total: 1m 35s	remaining: 1m 57s
+250:	learn: 0.8428006	test: 0.5001845	best: 0.5002456 (248)	total: 1m 58s	remaining: 1m 33s
+300:	learn: 0.8454463	test: 0.5006385	best: 0.5007242 (269)	total: 2m 21s	remaining: 1m 10s
+350:	learn: 0.8474850	test: 0.5003130	best: 0.5007400 (302)	total: 2m 46s	remaining: 47s
+400:	learn: 0.8496512	test: 0.5016025	best: 0.5016491 (398)	total: 3m 13s	remaining: 23.6s
+449:	learn: 0.8514988	test: 0.5021257	best: 0.5023624 (442)	total: 3m 38s	remaining: 0us
+
+bestTest = 0.502362446
+bestIteration = 442
+
+Shrink model to first 443 iterations.
+[PRUNED_94F] FINAL AP=0.502409 best_iter=442 runtime=3.78 min
+{
+  "unpruned_fold3_AP": 0.5047754428818132,
+  "pruned_fold3_AP": 0.5024089104495134,
+  "pruning_gain": -0.002366532432299784,
+  "decision": "REJECT PRUNING (gain below +0.001)",
+  "blend_baseline_global_AP": 0.5182256022283107
+}
+CATBOOST PRUNING FINAL RESULT

@@ -1,0 +1,7 @@
+{
+  "unpruned_fold3_AP": 0.5047754428818132,
+  "pruned_fold3_AP": 0.5024089104495134,
+  "pruning_gain": -0.002366532432299784,
+  "decision": "REJECT PRUNING (gain below +0.001)",
+  "blend_baseline_global_AP": 0.5182256022283107
+}

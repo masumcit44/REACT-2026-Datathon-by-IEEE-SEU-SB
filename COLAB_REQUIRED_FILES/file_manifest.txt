@@ -1,0 +1,134 @@
+COLAB REQUIRED FILES — MINIMAL UPLOAD SET
+------------------------------------------
+Goal: Manually upload these files to /content of all Colab workers (tab_1, tab2, tab3).
+Only files actually required by the assigned experiments are included.
+Files ALREADY present on all workers (verified 2026-09-11, do NOT re-upload):
+  - train.csv (86MB, raw)
+  - test.csv   (30MB, raw)
+  - data_dictionary.csv
+
+Total upload size: ~323.5 MB
+Package the 4 largest files (.parquet) as a ZIP if the UI allows, to reduce upload time.
+
+====================================================================
+FILE 1: train_combined.parquet   (237.6 MB)
+  Why required : Full merged feature matrix for TRAIN with all 183 features
+                  (V4 feature engineering 101 + mega feature engineering 82).
+                  Row order matches train.csv and y.npy exactly.
+  Workers      : tab_1 (W1), tab2 (W2), tab3 (W3) -- on ALL workers
+  Experiments  : CatBoost-183, HGB-183, XGBoost-183 (model training / fold-3
+                  + full-data fits) and any feature-engineering merge target.
+  Load code    : pd.read_parquet('/content/train_combined.parquet')
+  NOTE: index is NOT transaction_id; align with y.npy by position.
+
+====================================================================
+FILE 2: test_combined.parquet    (83.0 MB)
+  Why required : Full merged feature matrix for TEST with the same 183 columns.
+                  Row order matches test.csv. Needed to produce test predictions
+                  for every trained model (final submissions).
+  Workers      : tab_1 (W1), tab2 (W2), tab3 (W3) -- on ALL workers
+  Experiments  : CatBoost-183, HGB-183, XGBoost-183 (test prediction step);
+                  required by W1 and W3 experiments directly, and used by W2
+                  only if it evaluates its new graph features, but upload
+                  everywhere once for uniformity.
+  Load code    : pd.read_parquet('/content/test_combined.parquet')
+
+====================================================================
+FILE 3: y.npy   (5.9 MB)
+  Why required : Binary fraud labels (0/1) for all 731942 train rows, aligned to
+                  train_combined.parquet by position. Required to train models.
+  Workers      : tab_1 (W1), tab2 (W2), tab3 (W3) -- on ALL workers
+  Experiments  : CatBoost-183, HGB-183, XGBoost-183 (every supervised fit).
+  Load code    : np.load('/content/y.npy')
+
+====================================================================
+FILE 4: Fold_3_v4_targets.npy   (59.6 KB)
+  Why required : Fraud labels for the FOLD-3 VALIDATION window (last 59,465 train
+                  rows with fold-1/2 clean-time). This is the PRIMARY score:
+                  every model's fold-3 AP is compared against this target, and
+                  the fold-3 ranking gate (> +0.001 vs champion) is applied here.
+  Workers      : tab_1 (W1), tab3 (W3) -- fold-3 evaluation (W2 may skip it if
+                  it only builds graph features, but upload anyway).
+  Experiments  : CatBoost-183 fold-3 verify, HGB-183 fold-3 verify,
+                  XGBoost-183 fold-3 verify + ensemble fold-3 blend scoring.
+  Load code    : np.load('/content/Fold_3_v4_targets.npy')
+
+====================================================================
+FILE 5: Fold_2_v4_targets.npy   (475.8 KB)
+  Why required : Fraud labels for the FOLD-2 window (row window before fold-3).
+                  Used for the secondary fold-2 gate (fold-2 AP must not drop
+                  more than -0.001 vs champion before accepting a model).
+  Workers      : tab_1 (W1), tab3 (W3) -- secondary gate. Small; upload all.
+  Experiments  : CatBoost-183, HGB-183, XGBoost-183 fold-2 checks.
+  Load code    : np.load('/content/Fold_2_v4_targets.npy')
+
+====================================================================
+FILE 6: model_features_v4.pkl   (2.8 KB)
+  Why required : Ordered list of the 101 V4 modeling features
+                  (['customer_id','amount_bdt',...]). Defines WHICH columns are
+                  the "V4 core" used to build the cat_mask (low-cardinality
+                  categorical columns passed to CatBoost as string/cat features)
+                  and is the filter applied before training. Keeps every worker's
+                  feature alignment identical to the local champion.
+  Workers      : tab_1 (W1 - CatBoost), tab2 (W2 - if evaluating), tab3 (W3 - HGB)
+  Experiments  : CatBoost-183 (cat_mask construction), HGB-183 (feature filter
+                  on combined set), XGBoost-183 (feature filter consistency).
+  Load code    : pickle.load(open('/content/model_features_v4.pkl','rb'))
+
+====================================================================
+FILE 7: categorical_features_v4.pkl   (278 B)
+  Why required : List of the 13 categorical columns (customer_id, merchant_id,
+                  device_id, ...) explicitly treated as categorical for
+                  CatBoost native category handling. Required to reproduce the
+                  exact CatBoost behavior on leaf/feature splitting.
+  Workers      : tab_1 (W1 - CatBoost), tab3 (W3 - HGB cat-mask parity).
+  Experiments  : CatBoost-183 (native cat features), HGB-183 (low-card masking),
+                  debugging alignment on all runs.
+  Load code    : pickle.load(open('/content/categorical_features_v4.pkl','rb'))
+
+====================================================================
+FILE 8: sample_submission.csv   (4.7 MB)
+  Why required : Official submission template with the 262,648 required
+                  transaction_id rows. Workers use it to build a valid final
+                  submission CSV (transaction_id, fraud) directly from their
+                  test predictions if a submission is generated remotely.
+  Workers      : all (needed only if a submission file is produced on a worker)
+  Experiments  : Ensemble generation / final submission write.
+  Load code    : pd.read_csv('/content/sample_submission.csv')
+
+====================================================================
+CONSOLIDATED EXPERIMENT -> FILE MAP
+-----------------------------------
+CatBoost-183 ......... (cs) model 183-features
+  Requires: train_combined.parquet, test_combined.parquet, y.npy,
+            categorical_features_v4.pkl, model_features_v4.pkl,
+            Fold_3_v4_targets.npy, Fold_2_v4_targets.npy
+
+HGB-183 .............. (sg) model 183-features
+  Requires: train_combined.parquet, test_combined.parquet, y.npy,
+            model_features_v4.pkl, Fold_3_v4_targets.npy,
+            Fold_2_v4_targets.npy (categorical pkl optional)
+
+XGBoost-183 .......... (xg) model 183-features
+  Requires: train_combined.parquet, test_combined.parquet, y.npy,
+            model_features_v4.pkl, Fold_3_v4_targets.npy,
+            Fold_2_v4_targets.npy
+
+Ensemble generation ... all fold-3 / fold-2 targets + any model's saved .npy
+  Runs on models' outputs; labels comes from Fold_3_v4_targets.npy and
+  Fold_2_v4_targets.npy; final CSV from sample_submission.csv.
+
+Feature engineering pipelines
+  V4/mega merge upstream = train_combined.parquet, test_combined.parquet
+  Raw enrich inputs (already on workers) = train.csv, test.csv
+  Alignment keys = model_features_v4.pkl (101 core) + categorical_features_v4.pkl
+
+WORKER ASSIGNMENTS (for reference)
+-----------------------------------
+tab_1 (W1): CatBoost-183  -> needs all 8 files
+tab2 (W2):  Graph-feature engineering + cheap LGB screen -> needs parquets + pkls
+tab3 (W3):  HGB-183       -> needs all 8 files
+LOCAL (W4): ensemble, submission, tracker -> already has everything
+
+====================================================================
+END OF MANIFEST

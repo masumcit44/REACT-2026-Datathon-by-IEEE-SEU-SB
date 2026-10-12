@@ -1,0 +1,29 @@
+[core] train=(731942, 183) test=(262648, 183) feats=183
+[core] fold-2 rows 613012:672477 pos_rate=1.8448%
+[core] fold-3 rows 672477:731942 pos_rate=1.5572%
+[core] global pos_rate=1.7605%
+[matrix] feats=215 (base=183, na_ind=32)
+[v7] graph-augmented frame (731942, 250) test (262648, 250)
+[v7] hgb screen base183 : fold-3 AP=0.528432 nfeat=183 (184s)
+[v7] hgb screen na215   : fold-3 AP=0.527487 nfeat=215 (222s)
+[v7] hgb183 frame chosen = na215 (recorded ref 0.524681)
+[v7] hgb183    na215  AP=0.830686 best_iter=600 fit=612477 es=60000 200s
+[v7] hgb183    na215  AP=0.525151 best_iter=600 fit=612477 es=60000 193s
+[v7] hgb183    na215  TEST mean=0.013624 rounds=630 249s
+[v7] lgb183    na215  AP=0.816409 best_iter=25 fit=612477 es=60000 35s
+[v7] lgb183    na215  AP=0.512528 best_iter=39 fit=612477 es=60000 44s
+[v7] lgb183    na215  TEST mean=0.008763 rounds=100 58s
+[v7] graphlgb  na215+gv3 AP=0.811365 best_iter=109 fit=612477 es=60000 71s
+[v7] graphlgb  na215+gv3 AP=0.513218 best_iter=39 fit=612477 es=60000 55s
+[v7] graphlgb  na215+gv3 TEST mean=0.007376 rounds=100 49s
+[v7] xgb183    na215  AP=0.827812 best_iter=145 fit=612477 es=60000 73s
+[v7] xgb183    na215  AP=0.522067 best_iter=169 fit=612477 es=60000 90s
+[v7] xgb183    na215  TEST mean=0.172602 rounds=165 92s
+
+[v7] ==== MEMBER SUMMARY (fold OOF AP) ====
+  hgb183    f2=0.830686 f3=0.525151 mean=0.677919 worst=0.525151 iters=600/600 frame=na215
+  lgb183    f2=0.816409 f3=0.512528 mean=0.664469 worst=0.512528 iters=25/39 frame=na215
+  graphlgb  f2=0.811365 f3=0.513218 mean=0.662292 worst=0.513218 iters=109/39 frame=na215+gv3
+  xgb183    f2=0.827812 f3=0.522067 mean=0.674940 worst=0.522067 iters=145/169 frame=na215
+[v7] total 1619s
+DONE_MEMBERS

@@ -1,0 +1,11 @@
+{
+  "case": "CASE C",
+  "population_percentile_gain": 0.00051,
+  "population_percentile_status": "REJECTED_AT_CHEAP_SCREEN",
+  "channel_transition_gain": 0.000184,
+  "channel_transition_status": "REJECTED_AT_CHEAP_SCREEN",
+  "final_fold3_ensemble_AP": 0.518226,
+  "current_public_AP": 0.52642,
+  "recommended_action": "keep current submission as final",
+  "final_message": "NO NEW FEATURE CLEARED THE ENSEMBLE GATE. Current global ensemble (0.518226 Fold 3, 0.52642 public) remains final. Do not add these features to the submission pipeline."
+}

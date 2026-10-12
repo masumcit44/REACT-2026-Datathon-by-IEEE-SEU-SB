@@ -1,0 +1,26 @@
+0:	learn: 0.5304308	test: 0.4847380	best: 0.4847380 (0)	total: 2.15s	remaining: 53m 46s
+200:	learn: 0.8399711	test: 0.8265052	best: 0.8265101 (199)	total: 11m 30s	remaining: 1h 14m 24s
+400:	learn: 0.8651523	test: 0.8283812	best: 0.8284523 (389)	total: 24m 12s	remaining: 1h 6m 21s
+600:	learn: 0.8781529	test: 0.8298824	best: 0.8298943 (599)	total: 37m 18s	remaining: 55m 47s
+800:	learn: 0.8846821	test: 0.8303475	best: 0.8304444 (776)	total: 49m 16s	remaining: 43m
+Stopped by overfitting detector  (100 iterations wait)
+
+bestTest = 0.8304444051
+bestIteration = 776
+
+Shrink model to first 777 iterations.
+MEGA_CB FOLD2 AP = 0.830463 (3240s)
+0:	learn: 0.6689227	test: 0.3868812	best: 0.3868812 (0)	total: 2.46s	remaining: 1h 1m 21s
+200:	learn: 0.8634271	test: 0.5130992	best: 0.5136560 (104)	total: 12m 17s	remaining: 1h 19m 28s
+Stopped by overfitting detector  (100 iterations wait)
+
+bestTest = 0.5136559704
+bestIteration = 104
+
+Shrink model to first 105 iterations.
+MEGA_CB FOLD3 AP = 0.513697 (763s)
+BLEND FOLD3 AP = 0.527080
+BLEND FOLD2 AP = 0.831961
+=== GATE CHECK ===
+fold3=0.527080 fold2=0.831961 thresh=0.526080 -> PASS
+DONE_FOLD2_GATE

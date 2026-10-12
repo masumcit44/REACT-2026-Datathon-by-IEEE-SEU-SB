@@ -1,0 +1,32 @@
+{
+ "ap": 0.5199302643895508,
+ "corr_G": 0.9684284638783757,
+ "blend_best": 0.5213540059864402,
+ "blend_w": 0.5,
+ "n_feat": 124,
+ "na_cols": [
+  "customer_time_since_previous_min",
+  "customer_previous_amount",
+  "customer_previous_amount_mean",
+  "customer_amount_difference",
+  "customer_amount_ratio",
+  "customer_previous_hour",
+  "hour_difference_from_previous",
+  "customer_previous_amount_mean_v2",
+  "customer_previous_amount_std",
+  "customer_amount_zscore",
+  "customer_amount_abs_zscore",
+  "device_time_since_previous_min",
+  "device_recent_1h_share",
+  "device_recent_24h_share",
+  "merchant_time_since_previous_min",
+  "customer_amount_mean_previous_1h",
+  "customer_amount_mean_previous_6h",
+  "customer_amount_mean_previous_24h",
+  "customer_amount_ratio_recent_1h",
+  "customer_amount_ratio_recent_6h",
+  "customer_amount_ratio_recent_24h",
+  "merchant_recent_1h_share",
+  "merchant_recent_24h_share"
+ ]
+}

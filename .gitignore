@@ -1,0 +1,37 @@
+# Competition datasets and submissions
+*.csv
+*.parquet
+*.feather
+
+# Generated arrays and models
+*.npy
+*.npz
+*.pkl
+*.pickle
+*.joblib
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.model
+
+# Archives
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+
+# Generated output folders
+*_out/
+outputs/
+output/
+artifacts/
+models/
+checkpoints/
+cache/
+__pycache__/
+
+# Notebook temporary files
+.ipynb_checkpoints/

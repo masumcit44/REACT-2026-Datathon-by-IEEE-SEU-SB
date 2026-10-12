@@ -1,0 +1,64 @@
+[strengthen] member            f3_ap     documented   deficit   action
+[strengthen] lgb183       0.512528  0.514834   +0.002306  RETRAIN fixed=600  (iters 25/39)
+[strengthen] graphlgb     0.513218  0.516014   +0.002796  RETRAIN fixed=600  (iters 109/39)
+[strengthen] xgb183       0.522067  0.523993   +0.001926  RETRAIN fixed=500  (iters 145/169)
+[strengthen] backed up first-pass artifacts for lgb183 -> v7_out/es_backup/
+[strengthen] backed up first-pass artifacts for graphlgb -> v7_out/es_backup/
+[strengthen] backed up first-pass artifacts for xgb183 -> v7_out/es_backup/
+[strengthen] $ D:\Desktop\React datathon\.venv\Scripts\python.exe v7_members.py --members lgb183 --force --skip-variant-screen --fixed-rounds 600
+[core] train=(731942, 183) test=(262648, 183) feats=183
+[core] fold-2 rows 613012:672477 pos_rate=1.8448%
+[core] fold-3 rows 672477:731942 pos_rate=1.5572%
+[core] global pos_rate=1.7605%
+[matrix] feats=215 (base=183, na_ind=32)
+[v7] lgb183    na215  AP=0.811614 best_iter=600 fit=612477 es=60000 137s
+[v7] lgb183    na215  AP=0.516441 best_iter=600 fit=612477 es=60000 135s
+[v7] lgb183    na215  TEST mean=0.008353 rounds=600 275s
+
+[v7] ==== MEMBER SUMMARY (fold OOF AP) ====
+  hgb183    f2=0.830686 f3=0.525151 mean=0.677919 worst=0.525151 iters=600/600 frame=na215
+  lgb183    f2=0.811614 f3=0.516441 mean=0.664028 worst=0.516441 iters=600/600 frame=na215
+  xgb183    f2=0.827812 f3=0.522067 mean=0.674940 worst=0.522067 iters=145/169 frame=na215
+  graphlgb  f2=0.811365 f3=0.513218 mean=0.662292 worst=0.513218 iters=109/39 frame=na215+gv3
+[v7] total 550s
+DONE_MEMBERS
+[strengthen] $ D:\Desktop\React datathon\.venv\Scripts\python.exe v7_members.py --members graphlgb --force --skip-variant-screen --fixed-rounds 600
+[core] train=(731942, 183) test=(262648, 183) feats=183
+[core] fold-2 rows 613012:672477 pos_rate=1.8448%
+[core] fold-3 rows 672477:731942 pos_rate=1.5572%
+[core] global pos_rate=1.7605%
+[matrix] feats=215 (base=183, na_ind=32)
+[v7] graph-augmented frame (731942, 250) test (262648, 250)
+[v7] graphlgb  na215+gv3 AP=0.810966 best_iter=600 fit=612477 es=60000 168s
+[v7] graphlgb  na215+gv3 AP=0.518219 best_iter=600 fit=612477 es=60000 163s
+[v7] graphlgb  na215+gv3 TEST mean=0.007911 rounds=600 285s
+
+[v7] ==== MEMBER SUMMARY (fold OOF AP) ====
+  hgb183    f2=0.830686 f3=0.525151 mean=0.677919 worst=0.525151 iters=600/600 frame=na215
+  lgb183    f2=0.811614 f3=0.516441 mean=0.664028 worst=0.516441 iters=600/600 frame=na215
+  xgb183    f2=0.827812 f3=0.522067 mean=0.674940 worst=0.522067 iters=145/169 frame=na215
+  graphlgb  f2=0.810966 f3=0.518219 mean=0.664592 worst=0.518219 iters=600/600 frame=na215+gv3
+[v7] total 619s
+DONE_MEMBERS
+[strengthen] $ D:\Desktop\React datathon\.venv\Scripts\python.exe v7_members.py --members xgb183 --force --skip-variant-screen --fixed-rounds 500
+[core] train=(731942, 183) test=(262648, 183) feats=183
+[core] fold-2 rows 613012:672477 pos_rate=1.8448%
+[core] fold-3 rows 672477:731942 pos_rate=1.5572%
+[core] global pos_rate=1.7605%
+[matrix] feats=215 (base=183, na_ind=32)
+[v7] xgb183    na215  AP=0.827929 best_iter=499 fit=612477 es=60000 119s
+[v7] xgb183    na215  AP=0.524547 best_iter=499 fit=612477 es=60000 117s
+[v7] xgb183    na215  TEST mean=0.058270 rounds=500 242s
+
+[v7] ==== MEMBER SUMMARY (fold OOF AP) ====
+  hgb183    f2=0.830686 f3=0.525151 mean=0.677919 worst=0.525151 iters=600/600 frame=na215
+  lgb183    f2=0.811614 f3=0.516441 mean=0.664028 worst=0.516441 iters=600/600 frame=na215
+  xgb183    f2=0.827929 f3=0.524547 mean=0.676238 worst=0.524547 iters=499/499 frame=na215
+  graphlgb  f2=0.810966 f3=0.518219 mean=0.664592 worst=0.518219 iters=600/600 frame=na215+gv3
+[v7] total 480s
+DONE_MEMBERS
+[strengthen] retrain finished
+[strengthen] lgb183       new f2=0.811614 f3=0.516441 protocol=fixed_a_priori_600
+[strengthen] graphlgb     new f2=0.810966 f3=0.518219 protocol=fixed_a_priori_600
+[strengthen] xgb183       new f2=0.827929 f3=0.524547 protocol=fixed_a_priori_500
+DONE_STRENGTHEN

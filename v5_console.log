@@ -1,0 +1,117 @@
+[09:15:54] === V5 FAST PIPELINE start (RAM 15.0 GiB) ===
+[09:15:54] STEP 1: file discovery + row-alignment audit
+[09:15:54]   all required files present
+[09:16:00]   train (731942, 13) test (262648, 12) sample (262648, 2) 183-col combined aligned
+[09:16:00]   temporal test-after-train: test_min_h=495600.0 >= train_max_h=495600.0 -> True
+[09:16:00] MEM[after load] 1442 MB
+[09:16:00] STEP 2: BASE (183 cleaned) + missing indicators
+[09:16:07]   BASE cols: 203
+[09:16:07] MEM[base] 2121 MB
+[09:16:07] STEP 3: V5 label-free features
+[09:16:07]   labelfree cols: 9
+[09:16:07] MEM[labelfree] 2174 MB
+[09:16:09]   key codes built for: cust, merch, dev, devmerch, custdev, custmerch, devloc, custloc
+[09:16:12] MEM[freed parquet + raw frames] 1478 MB
+[09:16:12] === FOLD 2 ===
+[09:16:12]   fold2: tr [0:613012) va [613012:672477) rate=0.01772
+[09:16:12] STEP 4: fold-2 frozen history
+[09:16:17]   fold-2 history: (613012, 128) train, (59465, 128) val
+[09:16:17] MEM[fold2 history] 2172 MB
+[09:16:17] STEP 5: leakage tests for fold 2
+[09:16:17] LEAK CHECK: validation-label shuffle must not alter validation features
+[09:16:17]   -> True
+[09:16:17] LEAK CHECK: training-prefix label shuffle alters supervised but not label-free
+[09:16:17]   free_stable=True sup_changed=True l3rate_changed=True
+[09:16:17] LEAK CHECK: mapping source indices remain below fold cutoff
+[09:16:17]   first_val_count=39.0 prefix_occ=39 -> True
+[09:16:17] LEAK CHECK: first observation of a key excludes its own label
+[09:16:17]   first_obs count/fraud all zero over 15144 cold keys -> True
+[09:16:17]   y==raw fraud -> True
+[09:16:17]   sample ids == test ids -> True
+[09:16:17] STEP 6: BASE fold-2 training
+[0]	val-logloss:0.06829
+[50]	val-logloss:0.02821
+[100]	val-logloss:0.02651
+[150]	val-logloss:0.02628
+[200]	val-logloss:0.02631
+[229]	val-logloss:0.02632
+[09:16:54]   BASE fold2 AP=0.828417 best_iter=159
+[09:16:55] MEM[fold2 V5 matrices] 2389 MB
+[09:16:55] STEP 7: V5 fold-2 training
+[0]	val-logloss:0.07800
+[50]	val-logloss:0.04937
+[100]	val-logloss:0.04670
+[150]	val-logloss:0.04498
+[200]	val-logloss:0.04412
+[250]	val-logloss:0.04360
+[300]	val-logloss:0.04328
+[350]	val-logloss:0.04333
+[372]	val-logloss:0.04338
+[09:18:33]   V5 fold2 AP=0.679227 best_iter=302
+[09:18:33] MEM[after fold2 release] 1342 MB
+[09:18:33] === FOLD 3 ===
+[09:18:33]   fold3: tr [0:672477) va [672477:731942) rate=0.01778
+[09:18:33] STEP 10: fold-3 frozen history
+[09:18:35]   fold-3 history: (672477, 128) train, (59465, 128) val
+[09:18:35] MEM[fold3 history] 2080 MB
+[09:18:35] STEP 11: leakage tests for fold 3
+[09:18:35] LEAK CHECK: validation-label shuffle must not alter validation features
+[09:18:35]   -> True
+[09:18:35] LEAK CHECK: training-prefix label shuffle alters supervised but not label-free
+[09:18:35]   free_stable=True sup_changed=True l3rate_changed=True
+[09:18:35] LEAK CHECK: mapping source indices remain below fold cutoff
+[09:18:35]   first_val_count=123.0 prefix_occ=123 -> True
+[09:18:35] LEAK CHECK: first observation of a key excludes its own label
+[09:18:35]   first_obs count/fraud all zero over 15144 cold keys -> True
+[09:18:35]   y==raw fraud -> True
+[09:18:35]   sample ids == test ids -> True
+[09:18:35] STEP 12: BASE fold-3 training
+[0]	val-logloss:0.06792
+[50]	val-logloss:0.05022
+[100]	val-logloss:0.05078
+[109]	val-logloss:0.05078
+[09:18:57]   BASE fold3 AP=0.515025 best_iter=39
+[09:18:59] MEM[fold3 V5 matrices] 2336 MB
+[09:18:59] STEP 13: V5 fold-3 training
+[0]	val-logloss:0.07401
+[50]	val-logloss:0.06138
+[100]	val-logloss:0.06100
+[150]	val-logloss:0.05991
+[200]	val-logloss:0.05929
+[250]	val-logloss:0.05884
+[300]	val-logloss:0.05829
+[350]	val-logloss:0.05813
+[400]	val-logloss:0.05800
+[450]	val-logloss:0.05788
+[500]	val-logloss:0.05798
+[508]	val-logloss:0.05800
+[09:21:24]   V5 fold3 AP=0.439366 best_iter=438
+[09:21:24] STEP 15: V5 without supervised history block on fold-3
+[0]	val-logloss:0.06786
+[50]	val-logloss:0.05116
+[100]	val-logloss:0.05148
+[113]	val-logloss:0.05141
+[09:21:54]   ablation v5-nohistory AP=0.507696 (full v5 0.439366, base 0.515025)
+[09:21:54] MEM[after fold3 release] 183 MB
+[09:21:54] STEP 15/16: promotion metrics + selection
+[09:21:54]   F2 base=0.828417 v5=0.679227 d=-0.149190
+[09:21:54]   F3 base=0.515025 v5=0.439366 d=-0.075659
+[09:21:54]   mean base=0.671721 mean v5=0.559297 worst_delta=-0.149190
+[09:21:54]   leak_pass=True f2_high_warning=True f3_ap>0.75_block=False
+[09:21:54]   PROMOTION SELECTED: BASE
+[09:21:54]   final trees = median([159, 39])*1.05 => 103
+[09:21:54] STEP 17 skipped (BASE selected; no frozen history needed)
+[09:21:54] STEP 18: train selected config on full labelled data
+[09:22:15]   final model trained: 203 features, 103 trees
+[09:22:15] STEP 19: predict test
+[09:22:17]   test preds (262648,) range [0.0024,0.9948]
+[09:22:17] STEP 20: create + reload-check submission
+[09:22:18]   submission checks: {'rows': 262648, 'cols': ['transaction_id', 'fraud'], 'id_order': True, 'no_dup': True, 'no_missing': True, 'finite': True, 'in_range': True, 'precision': True, 'valid': True}
+[09:22:18] STEP 21: V5_RESEARCH_REPORT.md written
+[09:22:18] === FINAL SUMMARY ===
+[09:22:18]   selected config: BASE | final trees: 103
+[09:22:18]   F2 base=0.828417 v5=0.679227 | F3 base=0.515025 v5=0.439366
+[09:22:18]   mean base=0.671721 mean v5=0.559297
+[09:22:18]   submission: D:\Desktop\React datathon\v5_out\submission_v5_fast.csv (262648 rows) valid=True
+[09:22:18]   runtime: 383.6 s
+[09:22:18] === DONE ===

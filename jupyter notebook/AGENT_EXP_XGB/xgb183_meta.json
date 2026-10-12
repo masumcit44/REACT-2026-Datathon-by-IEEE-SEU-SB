@@ -1,0 +1,21 @@
+{
+ "fold3_ap": 0.5239929066608819,
+ "best_iter": 408,
+ "features": 215,
+ "params": {
+  "objective": "binary:logistic",
+  "eval_metric": "aucpr",
+  "tree_method": "hist",
+  "eta": 0.05,
+  "max_depth": 11,
+  "min_child_weight": 100,
+  "subsample": 0.8,
+  "colsample_bytree": 0.7,
+  "scale_pos_weight": 55.80133478193388,
+  "gamma": 0.0,
+  "lambda_": 1.0,
+  "seed": 4242,
+  "nthread": 4
+ },
+ "test_pred_mean": 0.07548527419567108
+}

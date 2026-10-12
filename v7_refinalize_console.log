@@ -1,0 +1,23 @@
+[refinalize] strengthen finished
+   [stack] lgb_n_estimators600_learning_rate0.01_num_leaves4_max_depth2 full  f2=0.826556 f3=0.526981 mean=0.676768 2.7s
+   [stack] lgb_n_estimators600_learning_rate0.01_num_leaves15_max_depth4 full  f2=0.824659 f3=0.525019 mean=0.674839 3.3s
+   [stack] lgb_n_estimators150_learning_rate0.05_num_leaves7_max_depth3 full  f2=0.825779 f3=0.525355 mean=0.675567 0.8s
+   [stack] ridge_alpha0.1                     full  f2=0.828894 f3=0.527577 mean=0.678235 0.1s
+   [stack] best_blend=nnls(prob) f3=0.527236 | best_stack=lr_C0.1(full) f3=0.527728 | PROMOTE=True
+   [stack] submission D:\Desktop\React datathon\submission_file\v7_stack_core_submission.csv valid=True mean=0.017882
+   [stack] DONE in 20s  promote=True submission_valid=True
+   DONE_STACK
+   [stack] lgb_n_estimators600_learning_rate0.01_num_leaves4_max_depth2 full  f2=0.827940 f3=0.527771 mean=0.677856 3.4s
+   [stack] lgb_n_estimators600_learning_rate0.01_num_leaves15_max_depth4 full  f2=0.828149 f3=0.527098 mean=0.677623 5.0s
+   [stack] lgb_n_estimators150_learning_rate0.05_num_leaves7_max_depth3 full  f2=0.826702 f3=0.526804 mean=0.676753 1.4s
+   [stack] ridge_alpha0.1                     full  f2=0.818072 f3=0.520572 mean=0.669322 0.2s
+   [stack] best_blend=nnls(prob) f3=0.528538 | best_stack=None(-) f3=nan | PROMOTE=False
+   [stack] submission D:\Desktop\React datathon\submission_file\v7_stack_wide_submission.csv valid=True mean=0.503784
+   [stack] DONE in 26s  promote=False submission_valid=True
+   DONE_STACK
+   [select] core  pool=core      chosen=lr_C0.1(full) f2=0.829803 f3=0.527728 promoted=True
+   [select] wide  pool=wide      chosen=nnls(prob) f2=0.832480 f3=0.528538 promoted=False
+   [select] WINNER tag=core pool=core f3=0.527728 f2=0.829803 valid=True
+   DONE_SELECT
+   [report] wrote V7_REPORT.md (7432 chars) and v7_out/v7_run_log.txt
+DONE_REFINALIZE

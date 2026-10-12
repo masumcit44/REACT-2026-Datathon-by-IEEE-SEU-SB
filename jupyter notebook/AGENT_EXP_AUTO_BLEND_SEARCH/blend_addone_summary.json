@@ -1,0 +1,41 @@
+{
+  "baseline": 0.5182256022283107,
+  "best_addone": {
+    "W4_stageB": {
+      "method": "rank",
+      "weight": 0.5,
+      "AP": 0.517459,
+      "gain": -0.000767
+    },
+    "X_extra_rand": {
+      "method": "rank",
+      "weight": 0.5,
+      "AP": 0.516322,
+      "gain": -0.001904
+    },
+    "CB_catboost": {
+      "method": "rank",
+      "weight": 0.5,
+      "AP": 0.511616,
+      "gain": -0.00661
+    },
+    "TA_accel": {
+      "method": "rank",
+      "weight": 0.5,
+      "AP": 0.516916,
+      "gain": -0.00131
+    },
+    "V4_best3": {
+      "method": "rank",
+      "weight": 0.5,
+      "AP": 0.516808,
+      "gain": -0.001418
+    },
+    "OLD_5076": {
+      "method": "rank",
+      "weight": 0.5,
+      "AP": 0.513536,
+      "gain": -0.00469
+    }
+  }
+}

@@ -1,0 +1,53 @@
+[finalize] members ready 1/4: ['hgb183'] (0s)
+[finalize] members ready 2/4: ['hgb183', 'lgb183'] (100s)
+[finalize] members ready 3/4: ['hgb183', 'lgb183', 'graphlgb'] (280s)
+[finalize] members ready 4/4: ['hgb183', 'lgb183', 'graphlgb', 'xgb183'] (540s)
+[finalize] all members present
+[finalize] $ D:\Desktop\React datathon\.venv\Scripts\python.exe v7_stack.py --pool core --tag core
+   [stack] pool (4): graphlgb, hgb183, lgb183, xgb183
+   [stack] median |Spearman| fold3=0.2631 fold2=0.3105
+   [stack] equal                              prob  f2=0.828638 f3=0.524023 mean=0.676330 0.0s
+   [stack] equal                              rank  f2=0.829569 f3=0.522622 mean=0.676096 0.0s
+   [stack] nnls                               prob  f2=0.831239 f3=0.526197 mean=0.678718 0.0s
+   [stack] lr_C1.0                            prob  f2=0.829762 f3=0.525171 mean=0.677466 0.1s
+   [stack] lr_C1.0                            full  f2=0.827361 f3=0.526506 mean=0.676934 0.8s
+   [stack] lr_C0.1                            full  f2=0.828984 f3=0.526692 mean=0.677838 0.5s
+   [stack] lr_C10.0                           full  f2=0.827228 f3=0.526440 mean=0.676834 0.9s
+   [stack] ridge_alpha1.0                     prob  f2=0.828548 f3=0.526320 mean=0.677434 0.1s
+   [stack] ridge_alpha1.0                     full  f2=0.819005 f3=0.525323 mean=0.672164 0.1s
+   [stack] ridge_alpha0.3                     full  f2=0.818999 f3=0.525308 mean=0.672154 0.1s
+   [stack] lgb_n_estimators300_learning_rate0.02_num_leaves7_max_depth3 prob  f2=0.824107 f3=0.525289 mean=0.674698 0.9s
+   [stack] lgb_n_estimators300_learning_rate0.02_num_leaves7_max_depth3 full  f2=0.825214 f3=0.526517 mean=0.675866 1.3s
+   [stack] lgb_n_estimators600_learning_rate0.01_num_leaves4_max_depth2 full  f2=0.828191 f3=0.526435 mean=0.677313 3.3s
+   [stack] best_blend=nnls(prob) f3=0.526197 | best_stack=None(-) f3=nan | PROMOTE=False
+   [stack] submission D:\Desktop\React datathon\submission_file\v7_stack_core_submission.csv valid=True mean=0.503842
+   [stack] DONE in 13s  promote=False submission_valid=True
+   DONE_STACK
+[finalize] $ D:\Desktop\React datathon\.venv\Scripts\python.exe v7_stack.py --pool wide --tag wide
+   [stack] pool (8): graphlgb, hgb183, hgb600_gate, lgb183, megacb_gate, megalgb_gate, xgb183, xgb183_gate
+   [stack] median |Spearman| fold3=0.3002 fold2=0.4488
+   [stack] equal                              prob  f2=0.831167 f3=0.525339 mean=0.678253 0.0s
+   [stack] equal                              rank  f2=0.831905 f3=0.524695 mean=0.678300 0.0s
+   [stack] nnls                               prob  f2=0.831488 f3=0.527931 mean=0.679709 0.0s
+   [stack] lr_C1.0                            prob  f2=0.827438 f3=0.525272 mean=0.676355 0.2s
+   [stack] lr_C1.0                            full  f2=0.828458 f3=0.528892 mean=0.678675 2.0s
+   [stack] lr_C0.1                            full  f2=0.831075 f3=0.529309 mean=0.680192 1.6s
+   [stack] lr_C10.0                           full  f2=0.827480 f3=0.528618 mean=0.678049 2.3s
+   [stack] ridge_alpha1.0                     prob  f2=0.829123 f3=0.527811 mean=0.678467 0.1s
+   [stack] ridge_alpha1.0                     full  f2=0.816003 f3=0.524219 mean=0.670111 0.3s
+   [stack] ridge_alpha0.3                     full  f2=0.815966 f3=0.524179 mean=0.670072 0.3s
+   [stack] lgb_n_estimators300_learning_rate0.02_num_leaves7_max_depth3 prob  f2=0.828744 f3=0.529293 mean=0.679019 1.7s
+   [stack] lgb_n_estimators300_learning_rate0.02_num_leaves7_max_depth3 full  f2=0.831083 f3=0.530195 mean=0.680639 2.5s
+   [stack] lgb_n_estimators600_learning_rate0.01_num_leaves4_max_depth2 full  f2=0.831384 f3=0.529649 mean=0.680516 3.6s
+   [stack] best_blend=nnls(prob) f3=0.527931 | best_stack=lgb_n_estimators300_learning_rate0.02_num_leaves7_max_depth3(full) f3=0.530195 | PROMOTE=True
+   [stack] submission D:\Desktop\React datathon\submission_file\v7_stack_wide_submission.csv valid=True mean=0.015591
+   [stack] DONE in 24s  promote=True submission_valid=True
+   DONE_STACK
+[finalize] $ D:\Desktop\React datathon\.venv\Scripts\python.exe v7_select.py
+   [select] core  pool=core      chosen=nnls(prob) f2=0.831239 f3=0.526197 promoted=False
+   [select] wide  pool=wide      chosen=lgb_n_estimators300_learning_rate0.02_num_leaves7_max_depth3(full) f2=0.831083 f3=0.530195 promoted=True
+   [select] WINNER tag=wide pool=wide f3=0.530195 f2=0.831083 valid=True
+   DONE_SELECT
+[finalize] $ D:\Desktop\React datathon\.venv\Scripts\python.exe v7_report.py
+[finalize] rc: core=0 wide=0 select=0 report=0
+DONE_FINALIZE

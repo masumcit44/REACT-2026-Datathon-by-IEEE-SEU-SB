@@ -1,0 +1,93 @@
+[2026-09-20 23:14:36] === Master Orchestrator initialized: run_055_research.py ===
+[2026-09-20 23:14:36] Starting REACT 2026 Datathon 0.550 Research Execution...
+[2026-09-20 23:14:36] Loading raw base matrices and labels...
+[2026-09-20 23:14:37] Base data loaded: 183 columns -> 215 matrix columns after NA handling.
+[2026-09-20 23:14:37] 
+======================================================================
+[2026-09-20 23:14:37] [Stage A] RECONSTRUCTING CLEAN PAST-ONLY FOLD-2 PREDICTIONS
+[2026-09-20 23:14:37] ======================================================================
+[2026-09-20 23:14:37] Training rows: 0 to 613012 (Fold 1 only, strictly past)
+[2026-09-20 23:14:37] Validation rows: 613012 to 672477 (Fold 2 window)
+[2026-09-20 23:14:37] Proof: Zero Fold-3 rows (>= 672477) participate in training.
+[2026-09-20 23:14:38] 
+--- Training Clean Fold-2: HGB183 ---
+[2026-09-20 23:17:53] HGB183 Clean Fold-2 AP: 0.831875 (Time: 194.6s)
+[2026-09-20 23:17:53] 
+--- Training Clean Fold-2: XGB183 ---
+[2026-09-20 23:24:39] XGB183 Clean Fold-2 AP: 0.825277 (Time: 405.4s, best_iter=1191)
+[2026-09-20 23:24:39] 
+--- Training Clean Fold-2: LGB183 ---
+[2026-09-20 23:26:21] LGB183 Clean Fold-2 AP: 0.829374 (Time: 101.9s, best_iter=935)
+[2026-09-20 23:26:21] 
+--- Training Clean Fold-2: GraphLGB ---
+[2026-09-20 23:28:31] GraphLGB Clean Fold-2 AP: 0.831063 (Time: 129.5s, best_iter=986)
+[2026-09-20 23:28:31] [Stage A] Complete. Saved clean fold-2 predictions and reports.
+[2026-09-20 23:28:32] 
+======================================================================
+[2026-09-20 23:28:32] [Stage B] CONTROLLED FEATURE ABLATION (FULL_VERIFIED vs RECENCY_SAFE)
+[2026-09-20 23:28:32] ======================================================================
+[2026-09-20 23:28:32] Total base features: 183
+[2026-09-20 23:28:32] Unsafe / Leaky features identified: 31
+[2026-09-20 23:28:32] Pure label-free / recency-safe features retained: 152
+[2026-09-20 23:28:32] 
+Evaluating Configuration: FULL_VERIFIED (183 features)...
+[2026-09-20 23:28:53]   Fold_A (Early June): AP = 0.790838
+[2026-09-20 23:29:14]   Fold_B (Late June): AP = 0.821868
+[2026-09-20 23:29:37]   Fold_C (Early July): AP = 0.522940
+[2026-09-20 23:29:37] 
+Evaluating Configuration: RECENCY_SAFE (152 features)...
+[2026-09-20 23:29:53]   Fold_A (Early June): AP = 0.783640
+[2026-09-20 23:30:12]   Fold_B (Late June): AP = 0.817910
+[2026-09-20 23:30:31]   Fold_C (Early July): AP = 0.520107
+[2026-09-20 23:30:31] [Stage B] Complete. Saved feature ablation scores and report.
+[2026-09-20 23:30:31] 
+======================================================================
+[2026-09-20 23:30:31] [Stage C] TRAINING-WINDOW & RECENCY WEIGHTING EXPERIMENT
+[2026-09-20 23:30:31] ======================================================================
+[2026-09-20 23:30:31] 
+Evaluating Training Strategy: Full_History...
+[2026-09-20 23:30:52]   Fold_A: AP = 0.790838
+[2026-09-20 23:31:14]   Fold_B: AP = 0.821868
+[2026-09-20 23:31:37]   Fold_C: AP = 0.522940
+[2026-09-20 23:31:37] 
+Evaluating Training Strategy: Recent_105d...
+[2026-09-20 23:31:53]   Fold_A: AP = 0.789881
+[2026-09-20 23:32:08]   Fold_B: AP = 0.820020
+[2026-09-20 23:32:23]   Fold_C: AP = 0.517620
+[2026-09-20 23:32:23] 
+Evaluating Training Strategy: Mild_Recency_Weighting...
+[2026-09-20 23:32:42]   Fold_A: AP = 0.788859
+[2026-09-20 23:33:04]   Fold_B: AP = 0.822766
+[2026-09-20 23:33:28]   Fold_C: AP = 0.521149
+[2026-09-20 23:33:28] 
+Evaluating Training Strategy: Fixed_90_10_Blend...
+[2026-09-20 23:34:03]   Fold_A: AP = 0.792325
+[2026-09-20 23:34:40]   Fold_B: AP = 0.821472
+[2026-09-20 23:35:22]   Fold_C: AP = 0.519644
+[2026-09-20 23:35:22] [Stage C] Complete. Saved training window scores and report.
+[2026-09-20 23:35:22] 
+======================================================================
+[2026-09-20 23:35:22] [Stage D] CAUSALLY SAFE GRAPH ENHANCEMENT ABLATION
+[2026-09-20 23:35:22] ======================================================================
+[2026-09-20 23:35:22] Loaded Graph-V3 feature matrix: (731942, 35) (35 causal connectivity features).
+[2026-09-20 23:35:45]   Safe_Baseline on Fold_B (June 16-30): AP = 0.821868
+[2026-09-20 23:36:09]   Safe_Baseline on Fold_C (July 1-15): AP = 0.522940
+[2026-09-20 23:36:35]   Safe_Baseline_Plus_GraphV3 on Fold_B (June 16-30): AP = 0.821656
+[2026-09-20 23:37:03]   Safe_Baseline_Plus_GraphV3 on Fold_C (July 1-15): AP = 0.525192
+[2026-09-20 23:37:03] [Stage D] Complete. Saved graph ablation scores and report.
+[2026-09-20 23:37:04] 
+======================================================================
+[2026-09-20 23:37:04] [Stage E] PREDICTION ALIGNMENT & DIVERSITY AUDIT
+[2026-09-20 23:37:04] ======================================================================
+[2026-09-20 23:37:04] Fold-3 Spearman Rank Correlation Matrix:
+[2026-09-20 23:37:04]             hgb183    xgb183    lgb183  graphlgb
+hgb183    1.000000  0.555865  0.319828  0.314586
+xgb183    0.555865  1.000000  0.333582  0.331713
+lgb183    0.319828  0.333582  1.000000  0.929024
+graphlgb  0.314586  0.331713  0.929024  1.000000
+[2026-09-20 23:37:04] [Stage E] Complete. Saved correlation matrices and diversity report.
+[2026-09-20 23:37:04] 
+======================================================================
+[2026-09-20 23:37:04] [Stage F] CONSTRAINED ENSEMBLE SEARCH (PROBABILITY, RANK, LOGIT)
+[2026-09-20 23:37:04] ======================================================================
+[2026-09-20 23:37:04] Searching 1691 constrained weight combinations...

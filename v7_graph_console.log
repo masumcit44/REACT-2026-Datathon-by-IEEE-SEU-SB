@@ -1,0 +1,20 @@
+[gv3] stream rows=994590 (train=731942 test=262648)
+[gv3] train end 2026-07-15 23:58:21 -> test start 2026-07-16 00:00:21
+[gv3][probe] past-only PASS=True maxdiff=0/0
+[gv3] 250000/994590 rows (6s)
+[gv3] 500000/994590 rows (12s)
+[gv3] 750000/994590 rows (20s)
+[gv3] built (994590, 35) in 28s
+[gv3] fold-3 single-feature AP (top):
+       g_dev_rows               AP=0.1232 (up=0.0124 down=0.1232) nz=0.998
+       g_dev_merch_deg          AP=0.1206 (up=0.0133 down=0.1206) nz=0.998
+       g_dev_merch_per_row      AP=0.1194 (up=0.0167 down=0.1194) nz=0.998
+       g_dev_cust_share         AP=0.1179 (up=0.0225 down=0.1179) nz=0.998
+       g_dev_cust_deg           AP=0.1164 (up=0.0315 down=0.1164) nz=0.998
+       g_merch_dev_deg          AP=0.0435 (up=0.0120 down=0.0435) nz=0.999
+       g_merch_rows             AP=0.0413 (up=0.0120 down=0.0413) nz=0.999
+       g_cd_pairs               AP=0.0383 (up=0.0116 down=0.0383) nz=0.919
+       g_cd_pairs_log           AP=0.0383 (up=0.0116 down=0.0383) nz=0.919
+       g_merch_cust_deg         AP=0.0375 (up=0.0121 down=0.0375) nz=0.999
+[gv3] DONE saved graph_v3_train.npy (731942, 35) graph_v3_test.npy (262648, 35) total=78s
+DONE_GRAPH_V3

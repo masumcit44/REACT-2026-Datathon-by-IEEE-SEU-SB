@@ -1,0 +1,200 @@
+[15:19:06] === V6 RECENCY PIPELINE start (RAM 13.9 GiB) ===
+[15:19:06] STEP 0: load + alignment
+[15:19:11]   aligned train=(731942, 13) test=(262648, 12); temporal monotonic OK
+[15:19:11]   fold2 val = raw [613012:672477) = 2026-06-15 18:16:06 .. 2026-06-30 23:59:38
+[15:19:11]   fold3 val = raw [672477:731942) = 2026-07-01 00:02:37 .. 2026-07-15 23:58:21
+[15:19:11] MEM[after load] 413 MB
+[15:19:11] STEP 1: BASE anomaly audit
+[15:19:11]   feature audit: 183 cols; oof-unverified=26, futurerank=5, v4hist=83
+[15:19:18] MEM[base matrix] 2134 MB
+[15:19:18]   BASE_RECENCY_SAFE (variant C) cols: 94
+[15:19:21] MEM[parked base matrices] 2225 MB
+[0]	val-aucpr:0.76797
+[100]	val-aucpr:0.82756
+[200]	val-aucpr:0.82861
+[288]	val-aucpr:0.82844
+[15:20:12]   variant A fold2: AP=0.828810 iter=218 top1prec=1.0000 top5prec=0.3165
+[0]	val-aucpr:0.44542
+[100]	val-aucpr:0.52150
+[200]	val-aucpr:0.52459
+[300]	val-aucpr:0.52525
+[334]	val-aucpr:0.52556
+[15:21:20]   variant A fold3: AP=0.525794 iter=264 top1prec=0.7626 top5prec=0.1746
+[0]	val-aucpr:0.75062
+[100]	val-aucpr:0.82286
+[200]	val-aucpr:0.82423
+[251]	val-aucpr:0.82394
+[15:22:05]   variant B fold2: AP=0.824433 iter=181 top1prec=1.0000 top5prec=0.3132
+[0]	val-aucpr:0.39630
+[100]	val-aucpr:0.51944
+[200]	val-aucpr:0.52160
+[300]	val-aucpr:0.52304
+[400]	val-aucpr:0.52260
+[15:23:23]   variant B fold3: AP=0.523365 iter=330 top1prec=0.7593 top5prec=0.1742
+[0]	val-aucpr:0.59817
+[100]	val-aucpr:0.75353
+[200]	val-aucpr:0.75283
+[232]	val-aucpr:0.75258
+[15:23:51]   variant C fold2: AP=0.753731 iter=162 top1prec=0.9815 top5prec=0.2920
+[0]	val-aucpr:0.34706
+[100]	val-aucpr:0.47572
+[200]	val-aucpr:0.48141
+[298]	val-aucpr:0.48149
+[15:24:30]   variant C fold3: AP=0.481636 iter=228 top1prec=0.6886 top5prec=0.1588
+[0]	val-aucpr:0.41888
+[100]	val-aucpr:0.49296
+[200]	val-aucpr:0.49737
+[291]	val-aucpr:0.49434
+[15:24:53]   variant D fold2: AP=0.498357 iter=221 top1prec=0.7054 top5prec=0.2307
+[0]	val-aucpr:0.23984
+[100]	val-aucpr:0.32236
+[175]	val-aucpr:0.32119
+[15:25:09]   variant D fold3: AP=0.323103 iter=105 top1prec=0.4798 top5prec=0.1342
+[0]	val-aucpr:0.75062
+[100]	val-aucpr:0.82207
+[200]	val-aucpr:0.82191
+[202]	val-aucpr:0.82200
+[15:25:50]   perm[LABEL_DERIVED_OOF_UNVERIFIED] fold2: AP=0.822365 loss=+0.006444
+[0]	val-aucpr:0.39578
+[100]	val-aucpr:0.51921
+[200]	val-aucpr:0.52059
+[300]	val-aucpr:0.52090
+[313]	val-aucpr:0.52066
+[15:27:00]   perm[LABEL_DERIVED_OOF_UNVERIFIED] fold3: AP=0.521611 loss=+0.004183
+[0]	val-aucpr:0.73609
+[100]	val-aucpr:0.82843
+[200]	val-aucpr:0.82918
+[295]	val-aucpr:0.82929
+[15:28:04]   perm[FUTURE_RANK_PCT] fold2: AP=0.829577 loss=-0.000768
+[0]	val-aucpr:0.43690
+[100]	val-aucpr:0.52237
+[200]	val-aucpr:0.52570
+[299]	val-aucpr:0.52587
+[15:29:13]   perm[FUTURE_RANK_PCT] fold3: AP=0.526248 loss=-0.000454
+[0]	val-aucpr:0.70692
+[100]	val-aucpr:0.78505
+[194]	val-aucpr:0.78477
+[15:29:58]   perm[V4_UNVERIFIED_HISTORICAL] fold2: AP=0.785575 loss=+0.043235
+[0]	val-aucpr:0.37848
+[100]	val-aucpr:0.50199
+[200]	val-aucpr:0.50380
+[300]	val-aucpr:0.50424
+[400]	val-aucpr:0.50477
+[500]	val-aucpr:0.50555
+[537]	val-aucpr:0.50520
+[15:32:02]   perm[V4_UNVERIFIED_HISTORICAL] fold3: AP=0.505868 loss=+0.019927
+[0]	val-aucpr:0.76724
+[100]	val-aucpr:0.82618
+[200]	val-aucpr:0.82659
+[263]	val-aucpr:0.82628
+[15:33:00]   perm[N_PROVEN_PAST] fold2: AP=0.826776 loss=+0.002034
+[0]	val-aucpr:0.44450
+[100]	val-aucpr:0.52033
+[200]	val-aucpr:0.52307
+[280]	val-aucpr:0.52271
+[15:34:06]   perm[N_PROVEN_PAST] fold3: AP=0.523391 loss=+0.002404
+[0]	val-aucpr:0.73609
+[100]	val-aucpr:0.82746
+[200]	val-aucpr:0.82735
+[212]	val-aucpr:0.82729
+[15:34:52]   perm[n_int_with_amt] fold2: AP=0.827810 loss=+0.001000
+[0]	val-aucpr:0.43692
+[100]	val-aucpr:0.52018
+[200]	val-aucpr:0.52394
+[300]	val-aucpr:0.52403
+[307]	val-aucpr:0.52414
+[15:36:01]   perm[n_int_with_amt] fold3: AP=0.524471 loss=+0.001323
+[0]	val-aucpr:0.76797
+[100]	val-aucpr:0.82717
+[200]	val-aucpr:0.82729
+[300]	val-aucpr:0.82769
+[394]	val-aucpr:0.82752
+[15:37:23]   perm[n_velocity] fold2: AP=0.827946 loss=+0.000863
+[0]	val-aucpr:0.44542
+[100]	val-aucpr:0.52150
+[200]	val-aucpr:0.52409
+[300]	val-aucpr:0.52592
+[399]	val-aucpr:0.52610
+[15:38:55]   perm[n_velocity] fold3: AP=0.526416 loss=-0.000622
+[15:38:55]   raw fold bounds verified [{'fold': 2, 'first_idx': 613012, 'first_id': 'T000613012', 'last_idx': 672476, 'last_id': 'T000672476'}, {'fold': 3, 'first_idx': 672477, 'first_id': 'T000672477', 'last_idx': 731941, 'last_id': 'T000731941'}]
+[15:38:55] MEM[after audit] 1755 MB
+[15:38:55] STEP 2: build V6 static label-free features
+[15:38:57]   V6 static cols: 60
+[15:38:58] MEM[after v6 static] 2514 MB
+[15:38:58] STEP 3/4: M0..M3 forward-fold comparison
+[0]	val-aucpr:0.59817
+[100]	val-aucpr:0.75353
+[200]	val-aucpr:0.75283
+[232]	val-aucpr:0.75258
+[15:39:27]   [M0] fold2 AP=0.753731 iter=162 top1prec=0.9815 top1cap=0.5314 top5prec=0.2920
+[0]	val-aucpr:0.34706
+[100]	val-aucpr:0.47572
+[200]	val-aucpr:0.48141
+[298]	val-aucpr:0.48149
+[15:40:08]   [M0] fold3 AP=0.481636 iter=228 top1prec=0.6886 top1cap=0.4417 top5prec=0.1588
+[0]	val-aucpr:0.55774
+[100]	val-aucpr:0.74775
+[200]	val-aucpr:0.74749
+[300]	val-aucpr:0.74791
+[400]	val-aucpr:0.74847
+[428]	val-aucpr:0.74870
+[15:41:22]   [M1] fold2 AP=0.749440 iter=358 top1prec=0.9798 top1cap=0.5305 top5prec=0.2910
+[0]	val-aucpr:0.31192
+[100]	val-aucpr:0.47681
+[200]	val-aucpr:0.48004
+[300]	val-aucpr:0.48156
+[357]	val-aucpr:0.48157
+[15:42:28]   [M1] fold3 AP=0.481847 iter=287 top1prec=0.6869 top1cap=0.4406 top5prec=0.1611
+[0]	val-aucpr:0.55179
+[100]	val-aucpr:0.74642
+[200]	val-aucpr:0.74717
+[15:43:07]   [M2] fold2 AP=0.748202 iter=130 top1prec=0.9848 top1cap=0.5333 top5prec=0.2923
+[0]	val-aucpr:0.32073
+[100]	val-aucpr:0.47397
+[200]	val-aucpr:0.47695
+[300]	val-aucpr:0.47687
+[400]	val-aucpr:0.47765
+[455]	val-aucpr:0.47764
+[15:44:32]   [M2] fold3 AP=0.477910 iter=385 top1prec=0.6818 top1cap=0.4374 top5prec=0.1621
+[0]	val-aucpr:0.55616
+[100]	val-aucpr:0.75382
+[197]	val-aucpr:0.75347
+[15:45:07]   [M3] fold2 AP=0.754744 iter=127 top1prec=0.9899 top1cap=0.5360 top5prec=0.2920
+[0]	val-aucpr:0.32551
+[100]	val-aucpr:0.47460
+[200]	val-aucpr:0.47655
+[300]	val-aucpr:0.47688
+[345]	val-aucpr:0.47690
+[15:46:10]   [M3] fold3 AP=0.477629 iter=275 top1prec=0.6785 top1cap=0.4352 top5prec=0.1615
+[15:46:10] STEP 7: leakage tests
+[15:46:10]   recency features label-free / shuffle-invariant -> True
+[15:46:10]   n_proven-past cutoff integrity (build_features_v2 past-only) -> True
+[15:46:10]   v6 static features current-row only (60 cols) -> True
+[15:46:10]   behavior interactions use only n_proven-past sources -> True
+[15:46:10]   recency features label-free / shuffle-invariant -> True
+[15:46:10]   n_proven-past cutoff integrity (build_features_v2 past-only) -> True
+[15:46:10]   v6 static features current-row only (60 cols) -> True
+[15:46:10]   behavior interactions use only n_proven-past sources -> True
+[15:46:10] STEP 5: V6 promotion rule
+[15:46:11]   M0 f2=0.753731 f3=0.481636 | best M3 f2=0.754744 f3=0.477629
+[15:46:11]   promotion from OLD suspicious BASE not used; comparison vs V6-M0
+[15:46:11]   fold-2 anomaly flag (any safe f2>0.75): True
+[15:46:11]   PROMOTION SELECTED: KEEP SAFE BASE M0
+[15:46:11] STEP 8: fit selected model on full labels (endpoint 2026-07-15)
+[15:46:12]   final trees = 204
+[15:46:40]   test preds (262648,) range [0.0014,0.9994]
+[15:46:40] STEP 9: submission + reload check
+[15:46:41]   submission checks: {'rows': 262648, 'cols': ['transaction_id', 'fraud'], 'id_order': True, 'no_dup': True, 'no_missing': True, 'finite': True, 'in_range': True, 'precision': True, 'valid': True}
+[15:46:41] === FINAL SUMMARY ===
+[15:46:41]   M0: Fold2=0.753731 Fold3=0.481636 mean=0.617683 worst=0.481636
+[15:46:41]   M1: Fold2=0.749440 Fold3=0.481847 mean=0.615643 worst=0.481847
+[15:46:41]   M2: Fold2=0.748202 Fold3=0.477910 mean=0.613056 worst=0.477910
+[15:46:41]   M3: Fold2=0.754744 Fold3=0.477629 mean=0.616186 worst=0.477629
+[15:46:41]   selected model: M0 | trees=204 | policy=W0
+[15:46:41]   fold-2 anomaly block: True
+[15:46:41]   leak tests: {'fold2': {'t1_recency_labelfree_invariant': True, 't2_cutoff_n_pastonly': True, 't3_v6_current_row_only': True, 't4_behavior_past_only': True, 't5_fold_anomaly_unit': True, 't6_val_width': 59465, 't7_temporal_regimes': 'report_emitted', 'all_tests_pass': True}, 'fold3': {'t1_recency_labelfree_invariant': True, 't2_cutoff_n_pastonly': True, 't3_v6_current_row_only': True, 't4_behavior_past_only': True, 't5_fold_anomaly_unit': True, 't6_val_width': 59465, 't7_temporal_regimes': 'report_emitted', 'all_tests_pass': True}}
+[15:46:41]   submission: D:\Desktop\React datathon\v6_out\submission_v6_recency.csv valid=True
+[15:46:41]   runtime: 1655.0 s
+[15:46:41] ==============================
+[15:46:41] KEEP SAFE BASE M0
+[15:46:41] === DONE ===

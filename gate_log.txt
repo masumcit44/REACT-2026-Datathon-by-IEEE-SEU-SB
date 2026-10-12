@@ -1,0 +1,27 @@
+Loading data...
+X: (731942, 183), y: (731942,), fold3: 59465, fold2: 59465
+fold3 indices: 672477-731941, fold2: 613012-672476, fold1: 0-613011
+fold2 train: (672477, 183), val: (59465, 183)
+fold3 train: (672477, 183), val: (59465, 183)
+Features after NA indicators: 215
+
+=== XGB183 ===
+[0]	va-aucpr:0.79070
+[200]	va-aucpr:0.82862
+[217]	va-aucpr:0.82912
+XGB183 FOLD2 AP = 0.829531 (best_iter=117)
+[0]	va-aucpr:0.48822
+[200]	va-aucpr:0.52118
+[400]	va-aucpr:0.52416
+[469]	va-aucpr:0.52397
+XGB183 FOLD3 AP = 0.524417 (best_iter=369)
+
+=== HGB600 ===
+HGB600 FOLD2 AP = 0.831361 (230s)
+HGB600 FOLD3 AP = 0.529777 (258s)
+
+=== MEGA_LGB ===
+MEGA_LGB FOLD2 AP = 0.818714 (65s)
+MEGA_LGB FOLD3 AP = 0.514834 (66s)
+
+=== MEGA_CB ===

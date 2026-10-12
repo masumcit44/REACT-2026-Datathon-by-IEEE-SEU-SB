@@ -1,0 +1,62 @@
+"""V9 STEP 6 - final report + run log (no submission: gate failed)."""
+import os, sys, json
+import pandas as pd
+ROOT = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, ROOT)
+OUT = os.path.join(ROOT, "v9_out")
+def main():
+    abl = pd.read_csv(os.path.join(OUT, "v9_ablation_scores.csv"))
+    bl = pd.read_csv(os.path.join(OUT, "v9_blend_scores.csv"))
+    pres = pd.read_csv(os.path.join(OUT, "v9_top_risk_preservation.csv"))
+    rb = pd.read_csv(os.path.join(OUT, "v9_ranking_band_scores.csv"))
+    sel = json.load(open(os.path.join(OUT, "v9_selected.json")))
+    imp = json.load(open(os.path.join(OUT, "v9_feature_importance.json"))
+                    ) if os.path.exists(os.path.join(OUT, "v9_feature_importance.json")) else {}
+    best = bl.sort_values("gain", ascending=False).iloc[0]
+    r3 = abl[abl["cfg"] == "R3_full"].iloc[0]
+    L = []
+    A = L.append
+    A("# V9 RESIDUAL RESEARCH REPORT - Graph V4 Lite + conditional night anomalies")
+    A("")
+    A("Incumbent: `submission_file/v7_final_submission.csv` (public 0.53710 / private 0.53268).")
+    A("V7 reference fold-3 AP = 0.527728. No V7/V8 artifact modified. No V9 submission created.")
+    A("")
+    A("## 1. Freeze verification (v9_freeze.py)")
+    A("- champion test CSV hash, all 12 member hashes, LOFO f3/f2 + exact test repro, ID alignment, member/meta order: PASS.")
+    A("")
+    A("## 2. Residual target diagnosis")
+    A("- V7 top-1% captures 454/926 fold-3 frauds (band A AP 0.9901); 472 FNs sit outside top-1%; 4609 disagreement rows (V7 rank>=1% but a member rank<5%).")
+    A("- Failure mass concentrates in repeat-customer/device daytime `hour:rest` purchase traffic (dev_prior 6+: 472 FNs; cust_prior 3+: 457), NOT in night segments (h01_04: 10 FNs, AP 0.93; weekend_night: 2 FNs, AP 0.96).")
+    A("- Coherent clusters: (i) repeat-customer daytime purchases, (ii) mid-amount mobile_wallet/debit traffic, (iii) July-even fraud (all three 5-day blocks ~150 FNs each).")
+    A("")
+    A("## 3. Graph V4 Lite (34 features, past-only, no labels)")
+    A("- device windows (unique customers 1h/6h/24h/7d, accel ratios, time-since-diff-customer, burst), cd/dm edge recency+counts+decay+new flags, shares, customer-location switches, cust_amt_ratio + 9 night-anomaly interactions.")
+    A("- cust_amt_ratio duplicates existing V7 `customer_amount_ratio` family (already in 183 base) - kept as the single strongest GV4 standalone signal (fold-3 AP 0.2646) but NOT an independent signal.")
+    A("")
+    A("## 4. Ablations (train rows 0:672477 -> score fold-3; V7 OOF excluded as input - proven leaking)")
+    A("")
+    A(abl.to_string(index=False))
+    A("")
+    A("- R4 == R3 by construction (OOF excluded for all). Top R3 gains: " + str(imp.get("R3_full", [])[:6]))
+    A("")
+    A("## 5. Fixed blends (gate: gain>=+0.0005, no July block <-0.001, worst within 0.0005, band 1-5/1-10 improves, corr<0.995)")
+    A(f"- best: {best['cfg']} {best['mode']} w={best['w']} gain={best['gain']:+.6f} corr={best['corr']} -> pass={best['pass']}. ALL 24 candidates FAIL (prob blends corr>0.995 with gains<=0; rank blends destroy calibration).")
+    A("")
+    A("## 6. Preservation / bands / audits")
+    A("- nearest-miss (R1 prob 2.5%): top-1% overlap 0.9966, 0 frauds removed from top-1%, bands 1-5/1-10 both slightly worse.")
+    A("- leakage audit 5/5 PASS; alignment audit 5/5 PASS (OOF excluded, cutoffs hold, current-row excluded, IDs aligned).")
+    A("")
+    A("## 7. Verdict: KEEP V7 LEADERBOARD CHAMPION - no residual candidate passed the gate; no submission written.")
+    rep = "\n".join(L) + "\n"
+    open(os.path.join(OUT, "V9_RESIDUAL_RESEARCH_REPORT.md"), "w").write(rep)
+    open(os.path.join(OUT, "v9_run_log.txt"), "w").write(rep)
+    print(rep, flush=True)
+    print("V7 reference Fold-3 AP: 0.527728", flush=True)
+    print(f"best residual standalone AP: {r3['standalone_ap']:.6f} (R3_full, corr {r3['corr_v7']:.4f})", flush=True)
+    print(f"best blended Fold-3 AP: {best['f3']:.6f} (gain {best['gain']:+.6f})", flush=True)
+    print(f"July deltas (best): early {best['d_early']:+.6f} mid {best['d_mid']:+.6f} late {best['d_late']:+.6f} worst {best['d_worst']:+.6f}", flush=True)
+    print(f"top1% preserved: removed={pres[pres['q']==0.01]['removed'].iloc[0]} added={pres[pres['q']==0.01]['added'].iloc[0]}", flush=True)
+    print("leakage: PASS alignment: PASS submission created: NO", flush=True)
+    print("KEEP V7 LEADERBOARD CHAMPION", flush=True)
+if __name__ == "__main__":
+    main()

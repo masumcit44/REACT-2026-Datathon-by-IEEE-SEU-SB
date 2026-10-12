@@ -1,0 +1,90 @@
+{
+  "fold3": {
+    "BASE": {
+      "ap": 0.5276383370356752,
+      "p_at_1pct": 0.7693602693602694,
+      "capture_at_1pct": 0.49352051835853133,
+      "p_at_2pct": 0.3994953742640875,
+      "capture_at_2pct": 0.5129589632829373,
+      "p_at_5pct": 0.17558022199798184,
+      "capture_at_5pct": 0.5637149028077754,
+      "best_iteration": 356,
+      "seconds": 37.98670496900013,
+      "name": "BASE_fold3"
+    },
+    "TIME_AMOUNT": {
+      "ap": 0.5280837677675124,
+      "p_at_1pct": 0.7676767676767676,
+      "capture_at_1pct": 0.4924406047516199,
+      "p_at_2pct": 0.39781328847771236,
+      "capture_at_2pct": 0.5107991360691144,
+      "p_at_5pct": 0.17524386141944165,
+      "capture_at_5pct": 0.562634989200864,
+      "best_iteration": 301,
+      "seconds": 38.836210805000064,
+      "name": "TIME_AMOUNT_fold3"
+    },
+    "RECENCY": {
+      "ap": 0.5279912616555239,
+      "p_at_1pct": 0.7626262626262627,
+      "capture_at_1pct": 0.4892008639308855,
+      "p_at_2pct": 0.40117746005046256,
+      "capture_at_2pct": 0.5151187904967602,
+      "p_at_5pct": 0.17591658257652204,
+      "capture_at_5pct": 0.5647948164146869,
+      "best_iteration": 375,
+      "seconds": 45.191351265999856,
+      "name": "RECENCY_fold3"
+    },
+    "LITE_FULL": {
+      "ap": 0.5297598820295876,
+      "p_at_1pct": 0.7693602693602694,
+      "capture_at_1pct": 0.49352051835853133,
+      "p_at_2pct": 0.40117746005046256,
+      "capture_at_2pct": 0.5151187904967602,
+      "p_at_5pct": 0.17591658257652204,
+      "capture_at_5pct": 0.5647948164146869,
+      "best_iteration": 660,
+      "seconds": 62.21411498899988,
+      "name": "LITE_FULL_fold3"
+    }
+  },
+  "fold2_base": {
+    "ap": 0.8301157621808549,
+    "p_at_1pct": 1.0,
+    "capture_at_1pct": 0.5414767547857794,
+    "p_at_2pct": 0.7275021026072329,
+    "capture_at_2pct": 0.7885141294439381,
+    "p_at_5pct": 0.315506222670703,
+    "capture_at_5pct": 0.8550592525068368,
+    "best_iteration": 203,
+    "seconds": 28.916016403999947,
+    "name": "BASE_fold2"
+  },
+  "fold2_chosen": {
+    "ap": 0.8297634901091802,
+    "p_at_1pct": 1.0,
+    "capture_at_1pct": 0.5414767547857794,
+    "p_at_2pct": 0.7291841883936081,
+    "capture_at_2pct": 0.7903372835004557,
+    "p_at_5pct": 0.3161789438277834,
+    "capture_at_5pct": 0.8568824065633546,
+    "best_iteration": 199,
+    "seconds": 37.26753652599973,
+    "name": "LITE_FULL_fold2"
+  },
+  "fold3_delta": 0.002121544993912372,
+  "fold2_delta": -0.00035227207167476404,
+  "selected": "LITE_FULL",
+  "trees": 450,
+  "feature_count": 268,
+  "prediction": {
+    "min": 0.0006833121879026294,
+    "max": 0.9996318817138672,
+    "mean": 0.015692397952079773,
+    "median": 0.005948178470134735,
+    "std": 0.07884830236434937
+  },
+  "runtime_seconds": 344.8193815909999,
+  "design": "No target-history features; dynamic label-free recency only."
+}

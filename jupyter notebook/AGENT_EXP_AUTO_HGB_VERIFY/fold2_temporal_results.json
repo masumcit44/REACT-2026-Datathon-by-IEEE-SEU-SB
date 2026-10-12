@@ -1,0 +1,10 @@
+{
+  "HGB600_f2_temporal_ap": 0.820536480813511,
+  "G2_baseline_ap": 0.815866720102262,
+  "A2_baseline_ap": 0.8194023099307168,
+  "HGB600_f2_gain_vs_G2": 0.004669760711249027,
+  "HGB600_f2_stable": true,
+  "f2_train_rows": 614022,
+  "f2_val_rows": 58455,
+  "runtime_s": 145.50037670135498
+}

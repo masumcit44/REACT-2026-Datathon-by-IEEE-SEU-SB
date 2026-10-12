@@ -1,0 +1,6 @@
+runtime_s=224.2
+budget=540s
+gate=INCOMPLETE
+f2_scores={'xgb_gate': 0.829531, 'hgb600_gate': 0.831361}
+best=0.527131 xgb183_0.625/hgb600r_0.35/lgb0.025/cb0 raw
+integrity={'row_count': True, 'id_exact_order': True, 'finite': np.True_, 'in_range': True, 'no_rounding': True, 'id_col': 'transaction_id'}

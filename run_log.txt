@@ -1,0 +1,16 @@
+=== REACT V5-LITE ===
+FOUND train.csv: 82.64 MB
+FOUND test.csv: 29.15 MB
+FOUND train_combined.parquet: 226.58 MB
+FOUND test_combined.parquet: 79.18 MB
+FOUND y.npy: 5.58 MB
+FOUND sample_submission.csv: 4.48 MB
+Features: base=215, A=25, B=28, A+B=268
+BASE_fold3: AP=0.527638, iter=356, sec=38.0
+TIME_AMOUNT_fold3: AP=0.528084, iter=301, sec=38.8
+RECENCY_fold3: AP=0.527991, iter=375, sec=45.2
+LITE_FULL_fold3: AP=0.529760, iter=660, sec=62.2
+Fold3 chosen after ablation: LITE_FULL
+BASE_fold2: AP=0.830116, iter=203, sec=28.9
+LITE_FULL_fold2: AP=0.829763, iter=199, sec=37.3
+Deltas: fold3=+0.002122, fold2=-0.000352; selected=LITE_FULL
